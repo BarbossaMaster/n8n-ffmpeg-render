@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: n8n-ffmpeg
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    autoDeploy: false
+    envVars:
+      - key: N8N_BASIC_AUTH_ACTIVE
+        value: true
+      - key: N8N_BASIC_AUTH_USER
+        value: Sefoda1!
+      - key: N8N_BASIC_AUTH_PASSWORD
+        value: Sefoda01!
