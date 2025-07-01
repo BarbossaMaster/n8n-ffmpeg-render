@@ -8,7 +8,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Instala o n8n e os nós extras (incluindo OpenAI oficial)
-RUN npm install -g n8n "@n8n/nodes-openai"
+RUN npm install -g n8n @n8n/nodes-openai
 
 # Define porta padrão do n8n
 EXPOSE 5678
