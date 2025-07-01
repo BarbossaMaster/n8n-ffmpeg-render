@@ -1,18 +1,20 @@
-# Usa uma imagem base do n8n com suporte a apt
-FROM n8nio/n8n:1.45.0-debian
+# Usa imagem Debian com Node.js
+FROM node:20-bullseye
 
-# Instala FFmpeg
-USER root
+# Instala dependências do sistema
 RUN apt-get update && \
-    apt-get install -y ffmpeg && \
+    apt-get install -y ffmpeg python3 build-essential && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Retorna para o usuário n8n
-USER node
+# Instala n8n e nós extras
+RUN npm install -g n8n @n8n/nodes-openai
 
-# Instala o nó oficial OpenAI
-RUN npm install -g @n8n/nodes-openai
+# Define porta
+EXPOSE 5678
 
-# Inicia o n8n
+# Cria volume para persistência de dados (opcional)
+VOLUME ["/home/node/.n8n"]
+
+# Roda o n8n
 CMD ["n8n"]
