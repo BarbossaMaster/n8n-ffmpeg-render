@@ -7,13 +7,13 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Instala n8n e nós extras
+# Instala n8n e o nó OpenAI correto
 RUN npm install -g n8n @n8n/nodes-openai
 
 # Define porta
 EXPOSE 5678
 
-# Cria volume para persistência de dados (opcional)
+# Cria volume para persistência de dados
 VOLUME ["/home/node/.n8n"]
 
 # Roda o n8n
