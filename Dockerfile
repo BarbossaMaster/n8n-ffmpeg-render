@@ -1,7 +1,7 @@
-# Usa imagem base do Node.js com apt-get disponível
+# Usa imagem base com apt-get
 FROM node:20-slim
 
-# Instala dependências do sistema e FFmpeg
+# Instala FFmpeg e dependências básicas
 USER root
 RUN apt-get update && \
     apt-get install -y ffmpeg python3 curl git && \
@@ -11,13 +11,13 @@ RUN apt-get update && \
 # Instala o n8n globalmente
 RUN npm install -g n8n
 
-# Instala os nós personalizados do OpenAI
-RUN npm install -g n8n-nodes-openai@latest
+# Instala o nó do OpenAI correto (com namespace @n8n_io)
+RUN npm install -g @n8n_io/n8n-nodes-openai
 
 # Cria diretório de trabalho
 WORKDIR /data
 
-# Define usuário padrão do container
+# Define usuário padrão
 USER node
 
 # Inicia o n8n
