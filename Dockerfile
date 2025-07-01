@@ -1,24 +1,18 @@
-# Usa imagem base com apt-get
-FROM node:20-slim
+# Usa a imagem oficial do n8n
+FROM n8nio/n8n
 
-# Instala FFmpeg e dependências básicas
+# Atualiza pacotes e instala FFmpeg
 USER root
 RUN apt-get update && \
-    apt-get install -y ffmpeg python3 curl git && \
+    apt-get install -y ffmpeg && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Instala o n8n globalmente
-RUN npm install -g n8n
-
-# Instala o nó do OpenAI correto (com namespace @n8n_io)
-RUN npm install -g @n8n_io/n8n-nodes-openai
-
-# Cria diretório de trabalho
-WORKDIR /data
-
-# Define usuário padrão
+# Retorna para o usuário n8n
 USER node
+
+# Instala o nó oficial do OpenAI atualizado
+RUN npm install -g @n8n/nodes-openai
 
 # Inicia o n8n
 CMD ["n8n"]
