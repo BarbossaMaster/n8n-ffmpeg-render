@@ -1,0 +1,32 @@
+const { IExecuteFunctions } = require('n8n-core');
+
+module.exports = {
+  description: {
+    displayName: 'ElevenLabs Voice',
+    name: 'elevenLabsVoice',
+    icon: 'file:elevenlabs.png',
+    version: 1,
+    defaults: { name: 'Generate Voice (ElevenLabs)' },
+    inputs: ['main'], outputs: ['main'],
+    properties: [
+      { displayName: 'Text', name: 'text', type: 'string', default: '' },
+      { displayName: 'Voice ID', name: 'voiceId', type: 'string', default: '' },
+    ],
+  },
+  async execute() {
+    const items = this.getInputData();
+    const text = this.getNodeParameter('text', 0);
+    const voiceId = this.getNodeParameter('voiceId', 0);
+    const response = await this.helpers.request({
+      method: 'POST',
+      url: `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,
+      headers: {
+        'xi-api-key': this.getCredentials('elevenLabsApi').apiKey,
+        'Content-Type': 'application/json',
+      },
+      body: { text },
+      encoding: null, // binary
+    });
+    return this.prepareBinaryData([{ binary: { data: response } }]);
+  }
+};
