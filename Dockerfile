@@ -7,13 +7,17 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Instala somente o n8n (sem nodes extras ainda)
+# Instala n8n globalmente
 RUN npm install -g n8n
 
-# Define porta padrão do n8n
+# Copia nós personalizados
+COPY ./custom-nodes /custom-nodes
+ENV N8N_CUSTOM_EXTENSIONS="/custom-nodes"
+
+# Porta padrão do n8n
 EXPOSE 5678
 
-# Cria volume para dados persistentes
+# Volume persistente
 VOLUME ["/home/node/.n8n"]
 
 # Inicia o n8n
